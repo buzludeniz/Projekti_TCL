@@ -28,7 +28,7 @@ Për të nisur këtë projekt, duhet të keni të instaluar:
 ### 2. Konfigurimi i Python
 1. Hapni terminalin në folderin e projektit.
 2. Instaloni libraritë e nevojshme:
-   ```bash```bash
+   ``````
    pip install oracledb streamlit pandas pyplot plotly
    ``````
 3.Nisni programin 
