@@ -20,7 +20,7 @@ Për të nisur këtë projekt, duhet të keni të instaluar:
 
 ### 1. Konfigurimi i Database-it
 1. Hapni VS Code dhe lidhuni me Oracle si `SYSDBA` (Fjalëkalimi: `123456`).
-2. Ekzekutoni skriptin `database_master.sql`. Ky skript:
+2. Ekzekutoni skriptin `query1.sql`. Ky skript:
    - Pastron çdo mbetje të mëparshme (Drop if exists).
    - Krijon tabelat dhe përdoruesit e rinj.
    - Instalon procedurat PL/SQL.
@@ -29,9 +29,38 @@ Për të nisur këtë projekt, duhet të keni të instaluar:
 1. Hapni terminalin në folderin e projektit.
 2. Instaloni libraritë e nevojshme:
    ``````
-   pip install oracledb streamlit pandas pyplot plotly
+   pip install oracledb streamlit pandas matplotlib plotly
    ``````
 3.Nisni programin 
    ``````
     python -m streamlit run app.py
    ``````
+
+---
+
+## English summary
+
+Projekt TCL is a university group project (team lead: Deniz Ikili) on
+transaction control in Oracle Database, with a Streamlit front end for a small
+sales-management system.
+
+**Database (`query1.sql`)**
+- Tables `Shitjet` (sales) and `Audit_Log`.
+- Three database users with different privileges: an admin with full DML on
+  sales, a developer, and a read-only analyst.
+- PL/SQL procedure `shto_transaksion_shitje` inserts a sale and logs it. It
+  rejects non-positive amounts (logging the blocked attempt) and rolls back on
+  any error.
+- PL/SQL procedure `fshi_transaksion_shitje` deletes a sale by id after checking
+  it exists, logs the result, and rolls back on failure.
+
+**App (`app.py`)**
+- Streamlit UI with three tabs: data management (add or delete a sale through
+  the stored procedures, latest records), charts (sales by product, share by
+  user, sales over time with Plotly), and project info.
+- Connects with `python-oracledb`.
+
+**Run it**
+1. Install Oracle Database XE (18c or 21c) and run `query1.sql` as `SYSDBA`.
+2. `pip install oracledb streamlit pandas matplotlib plotly`
+3. `python -m streamlit run app.py`
