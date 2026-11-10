@@ -19,7 +19,7 @@ Për të nisur këtë projekt, duhet të keni të instaluar:
 ## 🚀 Udhëzuesi i Nisjes (Getting Started)
 
 ### 1. Konfigurimi i Database-it
-1. Hapni VS Code dhe lidhuni me Oracle si `SYSDBA` (Fjalëkalimi: `123456`).
+1. Hapni VS Code dhe lidhuni me Oracle si `SYSDBA` (me fjalëkalimin që keni caktuar gjatë instalimit të Oracle; mos e shkruani në repo).
 2. Ekzekutoni skriptin `query1.sql`. Ky skript:
    - Pastron çdo mbetje të mëparshme (Drop if exists).
    - Krijon tabelat dhe përdoruesit e rinj.
@@ -29,9 +29,14 @@ Për të nisur këtë projekt, duhet të keni të instaluar:
 1. Hapni terminalin në folderin e projektit.
 2. Instaloni libraritë e nevojshme:
    ``````
-   pip install oracledb streamlit pandas matplotlib plotly
+   pip install -r requirements.txt
    ``````
-3.Nisni programin 
+3. Vendosni kredencialet e database-it në variabla mjedisi. Kopjoni skedarin shembull dhe plotësoni vlerat tuaja (skedari `.env` nuk ngarkohet në git):
+   ``````
+   cp .env.example .env
+   ``````
+   Variablat: `DB_USER`, `DB_PASSWORD`, `DB_DSN` (default `localhost:1521/XEPDB1`) dhe `DB_SYSDBA=true` nëse lidheni si `SYSDBA`. Mund t'i vendosni edhe direkt në terminal, p.sh. `export DB_PASSWORD=...` (Linux/macOS) ose `$env:DB_PASSWORD="..."` (PowerShell).
+4. Nisni programin
    ``````
     python -m streamlit run app.py
    ``````
@@ -62,5 +67,6 @@ sales-management system.
 
 **Run it**
 1. Install Oracle Database XE (18c or 21c) and run `query1.sql` as `SYSDBA`.
-2. `pip install oracledb streamlit pandas matplotlib plotly`
-3. `python -m streamlit run app.py`
+2. `pip install -r requirements.txt`
+3. `cp .env.example .env` and fill in `DB_USER`, `DB_PASSWORD` (and `DB_SYSDBA=true` if connecting as SYSDBA); the app reads them from the environment.
+4. `python -m streamlit run app.py`
