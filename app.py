@@ -1,3 +1,5 @@
+import os
+
 import streamlit as st
 import pandas as pd
 import oracledb
@@ -5,12 +7,35 @@ import matplotlib.pyplot as plt
 import plotly.express as px
 
 # --- KONFIGURIMI I LIDHJES ---
-DB_CONFIG = {
-    "user": "sys",
-    "password": "123456",
-    "dsn": "localhost:1521/XEPDB1",
-    "mode": oracledb.SYSDBA
-}
+# Kredencialet lexohen nga variablat e mjedisit (ose nga skedari .env, nese
+# python-dotenv eshte i instaluar). Mos i shkruani fjalekalimet ne kod.
+try:
+    from dotenv import load_dotenv
+    load_dotenv()
+except ImportError:
+    pass
+
+
+def load_db_config():
+    user = os.environ.get("DB_USER")
+    password = os.environ.get("DB_PASSWORD")
+    if not user or not password:
+        st.error(
+            "Mungojne DB_USER dhe/ose DB_PASSWORD. Kopjoni .env.example ne .env "
+            "dhe plotesoni vlerat (shih README.md)."
+        )
+        st.stop()
+    config = {
+        "user": user,
+        "password": password,
+        "dsn": os.environ.get("DB_DSN", "localhost:1521/XEPDB1"),
+    }
+    if os.environ.get("DB_SYSDBA", "false").strip().lower() in ("1", "true", "yes"):
+        config["mode"] = oracledb.SYSDBA
+    return config
+
+
+DB_CONFIG = load_db_config()
 
 # --- FUNKSIONE PER DATABASE ---
 def get_data():
